@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} — MOVIEMATCH</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <span class="logo">🎬 MOVIEMATCH</span>
+        <button class="back-btn" onclick="history.back()">← Back</button>
+    </nav>
+
+    {% if error %}
+    <!-- ERROR STATE -->
+    <div style="text-align:center; padding: 100px 20px;">
+        <div style="font-size:4rem;">😕</div>
+        <h2 style="color:#e50914; margin: 20px 0;">Movie Not Found!</h2>
+        <button class="back-btn" onclick="history.back()">← Go Back</button>
+    </div>
+
+    {% else %}
+    <!-- MOVIE DETAIL PAGE -->
+    <div class="detail-container">
+
+        <!-- LEFT -->
+        <div class="detail-left">
+
+            <!-- Rating -->
+            <div class="rating-box">
+                ⭐ <span class="rating-number">{{ movie.rating }}</span>
+                <span class="rating-label">/ 10</span>
+            </div>
+
+            <!-- OTT Platforms -->
+            <div class="ott-section">
+                <h4>📺 Available On</h4>
+                <div class="ott-tags">
+                    {% for platform in movie.ott %}
+                        <span class="ott-tag">{{ platform }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT — Movie Info -->
+        <div class="detail-right">
+
+            <!-- Title & Year -->
+            <h1 class="detail-title">{{ movie.title }}</h1>
+            <p class="detail-meta">{{ movie.year }} &nbsp;•&nbsp; {{ movie.runtime }}</p>
+
+            <!-- Genres -->
+            <div class="genre-tags">
+                {% for genre in movie.genres %}
+                    <span class="genre-tag">{{ genre }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Overview -->
+            <div class="detail-section">
+                <h3>📝 Overview</h3>
+                <p class="overview-text">{{ movie.overview }}</p>
+            </div>
+
+            <!-- Director -->
+            <div class="detail-section">
+                <h3>🎬 Director</h3>
+                <p class="detail-value">{{ movie.director }}</p>
+            </div>
+
+            <!-- Cast -->
+            <div class="detail-section">
+                <h3>👥 Cast</h3>
+                <div class="cast-tags">
+                    {% for actor in movie.cast %}
+                        <span class="cast-tag">{{ actor }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch — Movie Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- PAGE 1 — HERO / SEARCH PAGE -->
+    <div class="page" id="page-search">
+        
+        <nav>
+            <span class="logo">🎬 MOVIEMATCH</span>
+        </nav>
+
+        <div class="hero">
+            <h1>Find Your Next<br><span class="highlight">Favorite Movie</span></h1>
+            <p class="tagline">Type a movie you love and we'll find similar ones instantly.</p>
+
+            <form id="search-form" action="/recommend" method="POST">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        name="movie_name"
+                        id="movie-input"
+                        placeholder="e.g. The Dark Knight, Avatar..."
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+
+            <!-- Search History -->
+            <div class="history-section" id="history-section" style="display:none;">
+                <p class="history-label">Recent Searches</p>
+                <div class="history-tags" id="history-tags"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PAGE 2 — RESULTS PAGE -->
+    <div class="page" id="page-results" style="display:none;">
+
+        <nav>
+            <span class="logo">🎬 MOVIEMATCH</span>
+            <button class="back-btn" onclick="goBack()">← Back</button>
+        </nav>
+
+        <div class="results-container">
+            <h2>Because you liked <span class="highlight" id="searched-movie"></span></h2>
+            <p class="results-subtitle">Here are 5 movies you might enjoy</p>
+            <div class="cards-grid" id="cards-grid"></div>
+        </div>
+
+    </div>
+
+    <!-- Pass Flask data to JavaScript -->
+    {% if movie %}
+    <script>
+        var flaskMovie = {{ movie | tojson }};
+        var flaskRecs = {{ recommendations | tojson }};
+        var flaskError = {{ error | tojson }};
+    </script>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
